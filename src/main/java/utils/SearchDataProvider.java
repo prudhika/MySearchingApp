@@ -13,18 +13,18 @@ import java.util.*;
 
 
 @Component
-public class JSONReadFromFile {
+public class SearchDataProvider {
 
     public static HashMap<String,JSONObject> dataMap=new HashMap<String, JSONObject>();
     public static HashMap<Object, String> searchMap=new HashMap<Object, String>();
 
-    @SuppressWarnings("unchecked")
+    static final ClassLoader loader = SearchDataProvider.class.getClassLoader();
     public static void readFromFile() throws FileNotFoundException,IOException,ParseException{
 
             JSONParser parser=new JSONParser();
 
 
-            Object obj=parser.parse(new FileReader("/Users/prudhii/Documents/SearchingApp/src/main/resources/users.json"));
+            Object obj=parser.parse(new FileReader("/Users/prudhii/Documents/SearchingApp/src/main/resources/users.json")) ;
             JSONArray jsonArray = (JSONArray) obj;
 
             ArrayList<String> result=new ArrayList<String>();
