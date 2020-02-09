@@ -1,63 +1,63 @@
 package SearchApp;
 
-
-
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import utils.SearchDataProvider;
+import utils.AppConstants;
 import java.io.IOException;
 import java.util.Scanner;
+
 public class SearchApp {
 
-    @Autowired
-    SearchDataProvider jsonReadFromFile;
+    static final Logger logger = Logger.getLogger(SearchApp.class);
+    private static String input, field, value ;
+    static boolean repeatSearch = Boolean.TRUE;
+    static boolean isFirstSearch = Boolean.TRUE;
 
+    public static void main(String[] args) {
 
+        //Configure logger
+        BasicConfigurator.configure();
+        org.apache.log4j.Logger.getRootLogger().setLevel(Level.INFO);
 
-//     public static String searchExactKeywords(String searchCriteria,String searchItem,String searchValue) {
-//
-//         //search for users
-//         String usersJson="";
-//         String ticketsJson="";
-//         String organizationsJson="";
-//         StringBuilder sb=new StringBuilder();
-//        if(searchCriteria.equals("1")){
-//
-//            if(searchValue.contains(searchValue)){
-//
-//            }
-//           // searchMap.put(searchValue,searchItem);
-//            System.out.println("Welcome to the channel , you had selected the search criteria of users ");
-//
-//        }
-//        //search for tickets
-//        if(searchCriteria.equals("2")){
-//            System.out.println("Welcome to the channel , you had selected the search criteria of tickets");
-//        }
-//        //search for organizations
-//        if(searchCriteria.equals("3")){
-//            System.out.println("Welcome to the channel , you had selected the search criteria of organizations");
-//        }
-//        return "";
-//    }
-
-    public static void main(String[] args) throws IOException, ParseException {
-
-
-        System.out. println("Select 1) Users or 2)Tickets or 3) Organizations ");
         Scanner scanner =new Scanner(System.in);
-        String input = scanner. nextLine();
-        System.out. println("Please Enter search Item ");
-        String field = scanner. nextLine();
-        System.out. println("Please Enter search Value ");
-        String value = scanner. nextLine();
 
         BasicSearchService basicSearchService = new BasicSearchService();
-        basicSearchService.searchExactKeywords(input,field,value);
+        try {
+            while(repeatSearch)
+            {
+                scanUserInput(scanner);
+                basicSearchService.searchExactKeywords(input,field,value,isFirstSearch); // perform search
+                /* Select the input */
+                System.out.println("\n Do you want to do a new search ? 1) YES or Any other key: NO ");
+                isFirstSearch = Boolean.FALSE;
 
+                if(!scanner.nextLine().equalsIgnoreCase(AppConstants.ONE))
+                {
+                    repeatSearch = Boolean.FALSE;
+                    System.out.println("See you again!");
+                }
+            }
+        } catch (IOException e) {
+            logger.error(AppConstants.USER_ERROR_MESSAGE + e.getStackTrace());
+        } catch (ParseException e) {
+            logger.error(AppConstants.USER_ERROR_MESSAGE + e.getStackTrace());
+        }
     }
 
+    static void scanUserInput(Scanner scanner)
+    {
+        /* Select the input */
+        System.out.println("Select 1) Users or 2)Tickets or 3) Organizations ");
+         input = scanner. nextLine();
 
+        /* Select the search field */
+        System.out.println("Please Enter search Item "); // Can be replaced with Logger later with some customizations.
+         field = scanner. nextLine();
 
-
+        /* Enter the search value */
+        System.out.println("Please Enter search Value ");
+         value = scanner. nextLine();
+    }
 }

@@ -1,11 +1,13 @@
 package utils;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 public class JSONUtil {
 
     public static void printJsonObject(JSONObject jsonObj) {
+
+//        LinkedHashMap<String,Object> result =
+//        new ObjectMapper().readValue(jsonObj, HashMap.class);
+
         for (Object key : jsonObj.keySet()) {
             Object value = jsonObj.get(key);
 
@@ -14,6 +16,7 @@ public class JSONUtil {
             else
                 System.out.println(key + generateStringOfLength(50-key.toString().length()) + value);
         }
+        System.out.println("-----------------------------------------------------------");
     }
 
     public static String generateStringOfLength(int length)

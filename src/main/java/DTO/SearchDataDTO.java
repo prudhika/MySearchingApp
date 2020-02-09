@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SearchDataDTO {
-    public String getType() {
-        return type;
+
+    public SearchDataDTO(String type) {
+        this.type = type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    String getType() {
+        return type;
     }
 
     public Map<String, JSONObject> getDataMap() {
