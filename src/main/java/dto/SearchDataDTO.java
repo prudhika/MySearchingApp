@@ -1,10 +1,13 @@
-package DTO;
+package dto;
 
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * DTO for holding data map, search map and the type.
+ */
 public class SearchDataDTO {
 
     public SearchDataDTO(String type) {

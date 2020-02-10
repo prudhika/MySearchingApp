@@ -1,4 +1,4 @@
-package utils;
+package dataprovider;
 
 import dto.SearchDataDTO;
 import org.apache.log4j.Logger;
@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
+import utils.AppConstants;
 
 import java.io.FileReader;
 import java.io.IOException;
