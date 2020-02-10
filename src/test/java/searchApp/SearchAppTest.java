@@ -1,4 +1,4 @@
-package SearchApp;
+package searchApp;
 
 import org.junit.Test;
 

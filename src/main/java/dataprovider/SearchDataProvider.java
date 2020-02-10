@@ -1,6 +1,6 @@
 package utils;
 
-import DTO.SearchDataDTO;
+import dto.SearchDataDTO;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,12 +8,20 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 
+/**
+ * This class has methods which will read through the
+ * input jsons - users,tickets & orgs to build two maps which
+ * will be used for searching user input.
+ *
+ * Here maps are used to store the data as it gives
+ * faster search results with O(1) complexity and necessary
+ * for avoiding redundant parsing through json files
+ */
 @Component
 public class SearchDataProvider {
 
@@ -24,6 +32,11 @@ public class SearchDataProvider {
     static final ClassLoader loader = SearchDataProvider.class.getClassLoader();
 
 
+    /**
+     * @return map which holds three entries each for each category - user, ticket and organization.
+     * @throws IOException This is propogated from buildSearchData
+     * @throws ParseException This is propogated from buildSearchData
+     */
     public static Map<String,SearchDataDTO> process() throws IOException, ParseException {
         Map<String,SearchDataDTO> data = new HashMap<String, SearchDataDTO>();
 
@@ -39,47 +52,53 @@ public class SearchDataProvider {
         return data;
     }
 
+    /**
+     * @param path represents the resource path for parsing.
+     * @param searchDataDTO dto of the type for which data needs to built.
+     * @return searchDataDTO with loading the data map and the search map for a specific type.
+     * @throws IOException might occur while reading the file from the give @param path.
+     * @throws ParseException might occur while parsing the file contents as JSON.
+     */
     public static SearchDataDTO buildSearchData(String path, SearchDataDTO searchDataDTO) throws IOException, ParseException {
 
         dataMap = new HashMap<String, JSONObject>();
         searchMap = new HashMap<Object, String>();
 
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader(path));
+        Object obj = parser.parse(new FileReader(path)); // potential parsing/io exception.
         JSONArray jsonArray = (JSONArray) obj;
 
-        ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-            String id = (String) jsonObject.get("_id").toString();
-            dataMap.put(id, jsonObject);
 
+            /* To build data map*/
+            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+            String id = (String) jsonObject.get("_id").toString(); // get the id of each entry
+            dataMap.put(id, jsonObject); // build
+
+            /* To build search map*/
             for (Object key : jsonObject.keySet()) {
                 Object searchItem = String.valueOf(jsonObject.get(key));
-                if (searchMap.containsKey(searchItem)) {
+                if (searchMap.containsKey(searchItem)) { // Append the fields
                     String value = searchMap.get(searchItem)
-                            + "||" + key
-                            + "::" + id;
+                            + "||" + key // delimiter for fields
+                            + "::" + id; // delimiter for ids
                     searchMap.put(String.valueOf(jsonObject.get(key)), value);
                 } else {
                     Object searchKey = jsonObject.get(key);
-                    searchMap.put(String.valueOf(searchKey), key + "::" + id);
+                    searchMap.put(String.valueOf(searchKey), key + "::" + id); // first matching field
                 }
             }
         }
         for (Map.Entry<String, JSONObject> entry : dataMap.entrySet()) {
-            //logger.info(entry.getKey() + ":" + entry.getValue().toString());
+            logger.info(entry.getKey() + ":" + entry.getValue().toString());
         }
 
         for (Map.Entry<Object, String> entry : searchMap.entrySet()) {
-           // logger.info(entry.getKey() + ":" + entry.getValue().toString());
+            logger.info(entry.getKey() + ":" + entry.getValue());
         }
-
         searchDataDTO.setDataMap(dataMap);
         searchDataDTO.setSearchMap(searchMap);
 
         return searchDataDTO;
     }
-
-
 }
