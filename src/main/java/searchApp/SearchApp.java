@@ -34,6 +34,12 @@ public class SearchApp {
             while(repeatSearch)
             {
                 scanUserInput(scanner);
+
+                if(!input.equals(AppConstants.ONE) && !input.equals(AppConstants.TWO) && !input.equals(AppConstants.THREE)) {
+                    System.out.println("Invalid Selection!");
+                    continue;
+                }
+
                 basicSearchService.searchExactKeywords(input,field,value,isFirstSearch); // perform search
 
                 /* New search in a same session */

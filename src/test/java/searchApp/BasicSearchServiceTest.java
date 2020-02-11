@@ -100,21 +100,7 @@ public class BasicSearchServiceTest {
     }
 
  /* To be implemented
- @Test(expected = IOException.class)
-    public void testSearchExactKeywords_ThrowsIOException() throws IOException, ParseException {
-        // Setup
-        when(basicSearchServiceUnderTest.data.get("key")).thenReturn(new SearchDataDTO("type"));
-
-        // Run the test
-        basicSearchServiceUnderTest.searchExactKeywords("input", "searchField", "searchValue", false);
-    }
-
-    @Test(expected = ParseException.class)
-    public void testSearchExactKeywords_ThrowsParseException() throws IOException, ParseException {
-        // Setup
-        when(basicSearchServiceUnderTest.data.get("key")).thenReturn(new SearchDataDTO("type"));
-
-        // Run the test
-        basicSearchServiceUnderTest.searchExactKeywords("input", "searchField", "searchValue", false);
-    }*/
+  /**
+     * More tests can be added for this class if time persists to test Exceptions that are thrown and Invalid Search Items.
+     */
 }

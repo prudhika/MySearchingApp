@@ -9,8 +9,10 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 import utils.AppConstants;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 
@@ -66,7 +68,7 @@ public class SearchDataProvider {
         searchMap = new HashMap<Object, String>();
 
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader(path)); // potential parsing/io exception.
+        Object obj = parser.parse(new FileReader(getFileFromResources(path))); // potential parsing/io exception.
         JSONArray jsonArray = (JSONArray) obj;
 
         for (int i = 0; i < jsonArray.size(); i++) {
@@ -83,7 +85,7 @@ public class SearchDataProvider {
                     String value = searchMap.get(searchItem)
                             + "||" + key // delimiter for fields
                             + "::" + id; // delimiter for ids
-                    searchMap.put(String.valueOf(jsonObject.get(key)), value);
+                    searchMap.put(String.valueOf(jsonObject.get(key)), value); // skipping parsing through JSON array. Can be enhanced to search each value in the JSON Array as well
                 } else {
                     Object searchKey = jsonObject.get(key);
                     searchMap.put(String.valueOf(searchKey), key + "::" + id); // first matching field
@@ -101,5 +103,16 @@ public class SearchDataProvider {
         searchDataDTO.setSearchMap(searchMap);
 
         return searchDataDTO;
+    }
+
+    // get file from classpath, resources folder
+     static File getFileFromResources(String fileName) {
+
+        URL resource = SearchDataProvider.class.getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file is not found!");
+        } else {
+            return new File(resource.getFile());
+        }
     }
 }

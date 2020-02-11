@@ -5,9 +5,9 @@ package utils;
  */
 public class AppConstants {
 
-    public static final String user_path = "/Users/prudhii/Documents/SearchingApp/src/main/resources/input/users.json";
-    public static final  String tickets_path = "/Users/prudhii/Documents/SearchingApp/src/main/resources/input/tickets.json";
-    public static final String org_path = "/Users/prudhii/Documents/SearchingApp/src/main/resources/input/organizations.json";
+    public static final String user_path = "/input/users.json";
+    public static final  String tickets_path = "/input/tickets.json";
+    public static final String org_path = "/input/organizations.json";
 
     public static final String users = "USERS";
     public static final String tickets = "TICKETS";
@@ -19,5 +19,7 @@ public class AppConstants {
 
     public static final String USER_ERROR_MESSAGE = "Error Occurred. Please reach out to application support team with below details - \n";
     public static final String USER_NO_RESULTS_MESSAGE = "No Results Found - \n";
+    public static final String USER_NO_FIELD_MESSAGE = "Invalid Search Item. Please enter the valid field- \n";
+
 
 }

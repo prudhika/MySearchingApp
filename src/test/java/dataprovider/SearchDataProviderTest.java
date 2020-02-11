@@ -73,4 +73,7 @@ public class SearchDataProviderTest {
     }
 
 
+    /**
+     * More tests can be added for this class if time persists.
+     */
 }

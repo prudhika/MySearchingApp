@@ -8,6 +8,8 @@ import dataprovider.SearchDataProvider;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  * This class has method to perform validations on the input
@@ -23,7 +25,8 @@ public class BasicSearchService {
      * This method actually orchestrates the search operation based on the inputs provided.
      * It also ensures data is built during the first search and referred to the
      * same map for subsequent searches for faster search performance.
-     * @param input   category to be searched
+     *
+     * @param input         category to be searched
      * @param searchField   field to be searched
      * @param searchValue   value to be searched
      * @param isFirstSearch represents whether its initial search
@@ -38,10 +41,22 @@ public class BasicSearchService {
         //Search amd print
         SearchDataDTO currentSearchDTO = data.get(input.trim());
 
+        Set fieldSet = currentSearchDTO.dataMap.entrySet().iterator().next().getValue().keySet();
+
+        /*Search field validation*/
+        while (!fieldSet.contains(searchField.toLowerCase())) {
+            System.out.println(AppConstants.USER_NO_FIELD_MESSAGE);
+            System.out.println(fieldSet);
+            System.out.println("Please Enter search Item ");
+            Scanner scanner = new Scanner(System.in);
+            searchField = scanner.next();
+        }
+
+        final String tempSearchField = searchField;
         /*This is to search the empty values for a given search field*/
         if (searchValue.isEmpty()) {
             currentSearchDTO.getDataMap().forEach((k, v) -> {
-                if (!v.keySet().contains(searchField) || String.valueOf(v.get(searchField)).isEmpty())
+                if (!v.keySet().contains(tempSearchField) || String.valueOf(v.get(tempSearchField)).isEmpty())
                     JSONUtil.printJsonObject(v);
             });
         }
