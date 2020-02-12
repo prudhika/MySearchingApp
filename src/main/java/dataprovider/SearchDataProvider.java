@@ -93,11 +93,11 @@ public class SearchDataProvider {
             }
         }
         for (Map.Entry<String, JSONObject> entry : dataMap.entrySet()) {
-            logger.info(entry.getKey() + ":" + entry.getValue().toString());
+            //logger.info(entry.getKey() + ":" + entry.getValue().toString());
         }
 
         for (Map.Entry<Object, String> entry : searchMap.entrySet()) {
-            logger.info(entry.getKey() + ":" + entry.getValue());
+            //logger.info(entry.getKey() + ":" + entry.getValue());
         }
         searchDataDTO.setDataMap(dataMap);
         searchDataDTO.setSearchMap(searchMap);
