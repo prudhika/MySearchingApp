@@ -50,6 +50,7 @@ TICKET fields:
 [subject, created_at, description, submitter_id, external_id, type, priority, url, tags, via, organization_id, due_at, _id, has_incidents, status, assignee_id]
 ```
 Enter 3 - to search oraganizations.
+
 ORGANIZATION fields:
 ```
 [shared_tickets, name, created_at, external_id, details, _id, url, domain_names, tags]
