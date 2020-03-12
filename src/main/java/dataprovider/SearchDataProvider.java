@@ -73,7 +73,7 @@ public class SearchDataProvider {
 
         for (int i = 0; i < jsonArray.size(); i++) {
 
-            /* To build data map*/
+            /* To build data map.*/
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             String id = (String) jsonObject.get("_id").toString(); // get the id of each entry
             dataMap.put(id, jsonObject); // build
